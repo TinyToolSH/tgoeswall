@@ -1,0 +1,85 @@
+#!/bin/bash
+
+#This file is part of the TinyTools distribution (https://github.com/Calebe94/TinyTools).
+#Copyright (C)  TinyTools
+
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, version 3 of the License.
+
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+GOES_CDN="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/"
+WGET_CMD="wget -N -q --show-progress"
+
+resolution=""
+path=""
+
+usage()
+{
+    echo "usage: tgoeswall [-r <resolution>] [-t] [-l]"
+    echo "options:"
+    echo "-r: download image by a given resolution(available: 678, 1808, 5424, 10848);"
+    echo "-t: download thumbnail image(the smallest image);"
+    echo "-l: download latest image(the biggest image)."
+    exit 0
+}
+
+download_image()
+{
+    res="$1"
+    $WGET_CMD "$GOES_CDN/$res.jpg"
+}
+
+check_res_argument()
+{
+    res="$1"
+    [ "$res" = "678" ] || [ "$res" = "1808" ] || [ "$res" = "5424" ] || [ "$res" = "10848" ] && echo 0 || echo 1
+}
+
+main()
+{
+    while getopts "hr:tl" args; do
+        case "${args}" in
+            r)
+                result=$(check_res_argument "${OPTARG}")
+                [ $result = 0 ] && resolution="${OPTARG}x${OPTARG}"
+                ;;
+            t)
+                resolution="thumbnail"
+                ;;
+            l)
+                resolution="latest"
+                ;;
+            h | *)
+                usage
+                ;;
+        esac
+    done
+
+    # Check if the resolution passed match with the resolution available in the goes cdn
+    [ -z "$resolution" ] && echo "resolution does not match the available ones." && usage
+
+    # Check if an argument has been passed without a getopt option, if it is passed, check if it is a valid path
+    shift $(expr $OPTIND - 1 )
+    while test $# -gt 0; do [ -d "$1" ] && path="$1"; shift; done
+
+    # if it is a valid path, add it to wget command
+    [ -z "$path" ] || WGET_CMD+=" -P $path"
+
+    # download the image
+    download_image $resolution
+}
+
+################################
+#   MAIN
+################################
+
+[ $# -eq 0 ] && usage || main $@
+
