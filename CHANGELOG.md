@@ -9,23 +9,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 
 
-- Added CHANGELOG
-
 ### Fixed
 
 ### Changed
 
 ### Removed
 
-## [0.0.1] - 2021-03-30
+## [0.1.0] - 2021-05-02
 
 ### Added
 
+* Added a changelog
+* Added templates to repository
+* Added manpage to tgoeswall
+* Added licence file to tgoeswall
+* Added daemon reload to tgoeswallctrl
+* Added start service to tgoeswallctrl
+* Added licence to tgoeswallctrl
+* Added some output log to tgoeswallctrl
+* Added tgoeswall systemd service and timer
+* Added a systemd service prototype
+
 ### Changed
+
+* Updated wrong flag on makefile
+* Updated tgoeswallctrl start service
+* Updated typo in uninstall target
+* Updated tgoeswallctrl path
+* Updated tgoeswall.conf option
+* Updated tgoeswallctrl service
+* Updated tgoeswallctrl config path
+* Updated tgoeswall.service file
+* Updated tgoeswall make targets
+* Updated tgoeswall README
+* Changed tgoeswall download functionality
 
 ### Fixed
 
+* Fixed typo in makefile target
+* Fixed wrong file name
+* Fixing feh error when called from systemd
+
 ### Removed
 
-[unreleased]: https://github.com/TinyToolSH/tgoeswall/compare/0.0.1...HEAD
-[0.0.1]: https://github.com/TinyToolSH/tgoeswall/releases/tag/0.0.1
+[unreleased]: https://github.com/TinyToolSH/tgoeswall/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/TinyToolSH/tgoeswall/releases/tag/0.1.0
